@@ -222,7 +222,6 @@
       import {
         load,
         initTheme,
-        initMobileMenu,
         getUserById,
         updateUserProfile,
         extractHashtags,
@@ -239,8 +238,6 @@
 
       initTheme("themeToggle");
       initLogout();
-      // initialize mobile menu toggle (if present)
-      initMobileMenu("mobileMenuBtn", "authControls");
 
       const urlParams = new URLSearchParams(window.location.search);
       const profileUserId = urlParams.get("profile");
