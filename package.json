@@ -1,0 +1,19 @@
+{
+  "name": "social-media-app",
+  "version": "1.0.0",
+  "description": "A fully functional social media web app built with HTML, Tailwind CSS, and Vanilla JavaScript",
+  "type": "module",
+  "scripts": {
+    "build:css": "tailwindcss -i src/input.css -o src/output.css",
+    "watch:css": "tailwindcss -i src/input.css -o src/output.css --watch",
+    "start": "npm run watch:css"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17"
+  }
+}

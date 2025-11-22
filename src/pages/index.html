@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media - Share Your Story</title>
+    <link rel="stylesheet" href="../output.css" />
+    <link
+      rel="shortcut icon"
+      href="/img/logo_png-removebg-preview.png"
+      type="image/x-icon"
+    />
+    <style>
+      :root {
+        --accent-1: #00d1ff;
+        --accent-2: #7b61ff;
+        --accent-3: #ff6ea3;
+        --bg-1: #0b0c10;
+        --card: #131418;
+        --muted: #b8bac3;
+      }
+
+      /* Dark mode styling - properly cascading from html.dark */
+      html.dark body {
+        background-color: #0b0c10;
+        color: #e6eef8;
+      }
+
+      html.dark header {
+        background-color: #0f1115;
+        border-color: #1f2937;
+      }
+
+      html.dark .bg-white {
+        background-color: #0f1115;
+      }
+
+      html.dark .bg-gray-50 {
+        background-color: #0b0c10;
+      }
+
+      html.dark .bg-gray-100 {
+        background-color: #1f2937;
+      }
+
+      html.dark .text-gray-900,
+      html.dark .text-gray-900 * {
+        color: #e6eef8 !important;
+      }
+
+      html.dark .text-gray-800 {
+        color: #cbd5e1 !important;
+      }
+
+      html.dark .text-gray-700,
+      html.dark .text-gray-700 * {
+        color: #cbd5e1 !important;
+      }
+
+      html.dark .text-gray-600,
+      html.dark .text-gray-600 * {
+        color: #9aa6b8 !important;
+      }
+
+      html.dark .text-gray-500 {
+        color: #7a8fa6 !important;
+      }
+
+      html.dark .text-gray-400 {
+        color: #6b7a8f !important;
+      }
+
+      html.dark .label {
+        color: #cbd5e1 !important;
+      }
+
+      html.dark h1,
+      html.dark h2,
+      html.dark h3,
+      html.dark h4,
+      html.dark h5,
+      html.dark h6 {
+        color: #e6eef8 !important;
+      }
+
+      html.dark p {
+        color: #cbd5e1;
+      }
+
+      html.dark a {
+        color: #60a5fa;
+      }
+
+      html.dark a:hover {
+        color: #93c5fd;
+      }
+
+      html.dark .border-gray-200 {
+        border-color: #1f2937 !important;
+      }
+
+      html.dark .shadow {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      }
+
+      html.dark .btn-primary {
+        background-color: #2563eb;
+        color: #fff !important;
+      }
+
+      html.dark .btn-primary:hover {
+        background-color: #1d4ed8;
+      }
+
+      html.dark .btn-secondary {
+        background-color: #1e40af;
+        color: #fff !important;
+      }
+
+      html.dark .btn-danger {
+        background-color: #dc2626;
+        color: #fff !important;
+      }
+
+      html.dark .input-field {
+        background-color: #0b1220;
+        color: #e6eef8;
+        border-color: #1f2937;
+      }
+
+      html.dark .input-field::placeholder {
+        color: #6b7a8f;
+      }
+
+      html.dark .card {
+        background-color: #0f1720;
+        color: #d9e6f2;
+      }
+
+      /* Landing page dark mode */
+      html.dark #landingPage {
+        background: linear-gradient(
+          to bottom right,
+          #0b0c10,
+          #1a1f2e
+        ) !important;
+      }
+
+      html.dark #landingPage .text-gray-900 {
+        color: #e6eef8 !important;
+      }
+
+      html.dark #landingPage .text-gray-700 {
+        color: #cbd5e1 !important;
+      }
+
+      html.dark #landingPage .text-xl {
+        color: #cbd5e1 !important;
+      }
+
+      html.dark .bg-linear-to-br {
+        background: linear-gradient(
+          to bottom right,
+          #0b0c10,
+          #1a1f2e
+        ) !important;
+      }
+
+      html.dark .from-blue-50 {
+        background-color: #0b0c10 !important;
+      }
+
+      html.dark .to-blue-100 {
+        background-color: #1a1f2e !important;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto px-4 py-4">
+        <div class="flex items-center justify-betw gap-4 flex-wrap">
+          <!-- Logo -->
+          <div class="flex items-center gap-3">
+            <img
+              src="/img/logo_png-removebg-preview.png"
+              class="h-10 w-12"
+              alt="NextWavesDigital"
+            />
+            <h1
+              class="text-2xl font-bold text-gray-900"
+              style="
+                background: linear-gradient(
+                  90deg,
+                  var(--accent-1),
+                  var(--accent-2),
+                  var(--accent-3)
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+              "
+            >
+              NextWavesDigital
+            </h1>
+          </div>
+
+          <div id="authControls" class="hidden md:flex gap-3 items-center">
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Search posts..."
+              class="input-field"
+            />
+            <select id="sortSelect" class="input-field">
+              <option value="latest">Latest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="mostLiked">Most Liked</option>
+            </select>
+            <div id="welcomeUser" class="text-sm text-gray-600 px-4 py-2"></div>
+            <a href="./create-post.html" class="btn-primary">Post</a>
+            <button
+              id="logoutBtn"
+              class="border border-blue-500 rounded-lg px-4 py-2 font-medium text-blue-500"
+            >
+              Logout
+            </button>
+            <button
+              id="themeToggle"
+              title="Toggle theme"
+              class="btn-outline h-10 flex items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                width="1em"
+                height="1em"
+                fill="currentColor"
+                stroke-linecap="round"
+                class="theme-toggle__classic"
+                viewBox="0 0 32 32"
+              >
+                <clipPath id="theme-toggle__classic__cutout">
+                  <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z" />
+                </clipPath>
+                <g clip-path="url(#theme-toggle__classic__cutout)">
+                  <circle cx="16" cy="16" r="9.34" />
+                  <g stroke="currentColor" stroke-width="1.5">
+                    <path d="M16 5.5v-4" />
+                    <path d="M16 30.5v-4" />
+                    <path d="M1.5 16h4" />
+                    <path d="M26.5 16h4" />
+                    <path d="m23.4 8.6 2.8-2.8" />
+                    <path d="m5.7 26.3 2.9-2.9" />
+                    <path d="m5.8 5.8 2.8 2.8" />
+                    <path d="m23.4 23.4 2.9 2.9" />
+                  </g>
+                </g>
+              </svg>
+            </button>
+          </div>
+
+          <!-- User Not Logged in -->
+          <div id="guestControls" class="flex md:hidden gap-3 items-center">
+            <a href="./signup.html" class="btn-primary">Sign Up</a>
+            <a href="./login.html" class="btn-primary">Log In</a>
+            <button
+              id="themeToggleGuest"
+              title="Toggle theme"
+              class="btn-outline"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                width="1em"
+                height="1em"
+                fill="currentColor"
+                stroke-linecap="round"
+                class="theme-toggle__classic"
+                viewBox="0 0 32 32"
+              >
+                <clipPath id="theme-toggle__classic__cutout">
+                  <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z" />
+                </clipPath>
+                <g clip-path="url(#theme-toggle__classic__cutout)">
+                  <circle cx="16" cy="16" r="9.34" />
+                  <g stroke="currentColor" stroke-width="1.5">
+                    <path d="M16 5.5v-4" />
+                    <path d="M16 30.5v-4" />
+                    <path d="M1.5 16h4" />
+                    <path d="M26.5 16h4" />
+                    <path d="m23.4 8.6 2.8-2.8" />
+                    <path d="m5.7 26.3 2.9-2.9" />
+                    <path d="m5.8 5.8 2.8 2.8" />
+                    <path d="m23.4 23.4 2.9 2.9" />
+                  </g>
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+
+    <!-- WithOutLogin -->
+
+    <section
+      id="landingPage"
+      class="min-h-screen bg-linear-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4"
+    >
+      <div class="max-w-2xl w-full text-center">
+        <div class="mb-8">
+          <div class="h-24 rounded-full flex items-center justify-center text-white text-5xl font-bold mb-6">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+              <img
+                src="/img/logo_png-removebg-preview.png"
+                class="h-20 w-22"
+                alt="NextWavesDigital"
+              />
+              <h1
+                class="text-4xl font-bold text-gray-900"
+                style="
+                  background: linear-gradient(
+                    90deg,
+                    var(--accent-1),
+                    var(--accent-2),
+                    var(--accent-3)
+                  );
+                  -webkit-background-clip: text;
+                  background-clip: text;
+                  color: transparent;
+                "
+              >
+                NextWavesDigital
+              </h1>
+            </div>
+          </div>
+          <h1 class="text-5xl font-bold text-gray-900 mb-4">
+            Welcome to Social Media
+          </h1>
+          <p class="text-xl text-gray-700 mb-8">
+            Share your thoughts, connect with friends, and be part of our
+            community.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div class="card text-left">
+            <h3 class="text-xl font-bold text-gray-900 mb-3 flex gap-2">
+              <img src="/img/star-stroke-rounded.svg" alt="" /> Features
+            </h3>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex gap-2">
+                <span class="text-blue-500">•</span>
+                <span>Create and share posts</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-blue-500">•</span>
+                <span>Add images to your posts</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-blue-500">•</span>
+                <span>Like posts from the community</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-blue-500">•</span>
+                <span>Search and filter posts</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card text-left">
+            <h3 class="text-xl font-bold text-gray-900 mb-3 flex gap-2">
+              <img src="/img/lock-key-stroke-rounded.svg" alt="" /> Secure &
+              Private
+            </h3>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex gap-2">
+                <span class="text-green-500">•</span>
+                <span>All data stored locally</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-green-500">•</span>
+                <span>No third-party tracking</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-green-500">•</span>
+                <span>Works offline</span>
+              </li>
+              <li class="flex gap-2">
+                <span class="text-green-500">•</span>
+                <span>Easy to use interface</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <p class="text-lg text-gray-700 font-semibold">Get started now</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="./signup.html"
+              class="btn-primary px-8 py-3 text-lg inline-block"
+              >Create Account</a
+            >
+            <a
+              href="./login.html"
+              class="btn-outline px-8 py-3 text-lg inline-block border-2 border-gray-300 text-gray-700 hover:border-gray-500"
+              >Already have an account? Log In</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Withlogin -->
+
+    <main id="feedPage" class="hidden max-w-6xl mx-auto px-4 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <!-- Main Feed -->
+        <div class="lg:col-span-3">
+          <div
+            class="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between"
+          >
+            <div>
+              <h2 class="text-2xl font-bold text-gray-900">Your Feed</h2>
+              <p id="filterStatus" class="text-sm text-gray-600 mt-1"></p>
+            </div>
+            <div class="flex gap-3 w-full sm:w-auto flex-wrap">
+              <input
+                id="searchInput"
+                type="text"
+                placeholder="Search posts..."
+                class="input-field flex-1 sm:flex-none sm:w-48"
+              />
+              <select id="sortSelect" class="input-field">
+                <option value="latest">Latest</option>
+                <option value="oldest">Oldest</option>
+                <option value="mostLiked">Most Liked</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="feedContainer" class="space-y-4">
+            <!-- Post section -->
+          </div>
+        </div>
+
+        <div class="lg:col-span-1">
+          <div class="card sticky top-24">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Trending Tags</h3>
+            <div id="trendingHashtags" class="space-y-2">
+              <!-- Hashtag section -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import {
+        load,
+        initTheme,
+        getTrendingHashtags,
+      } from "../javascript/utils.js";
+      import { initLogout } from "../javascript/auth.js";
+      import { initFeedPage } from "../javascript/feed.js";
+
+      // theme
+      initTheme("themeToggle");
+      const guestBtn = document.getElementById("themeToggleGuest");
+      if (guestBtn) {
+        guestBtn.addEventListener("click", () => {
+          const main = document.getElementById("themeToggle");
+          if (main) main.click();
+        });
+      }
+
+      const currentUser = load("currentUser");
+      const landingPage = document.getElementById("landingPage");
+      const feedPage = document.getElementById("feedPage");
+      const authControls = document.getElementById("authControls");
+      const guestControls = document.getElementById("guestControls");
+      const welcomeEl = document.getElementById("welcomeUser");
+
+      if (currentUser) {
+        // User is logged in
+        landingPage.classList.add("hidden");
+        feedPage.classList.remove("hidden");
+        guestControls.classList.add("hidden");
+        authControls.classList.remove("hidden");
+
+        // Set welcome message
+        if (welcomeEl) {
+          welcomeEl.textContent = `Welcome, ${currentUser.name}`;
+        }
+
+        // Handle profile page redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("profile")) {
+          const profileUserId = urlParams.get("profile");
+          window.location.href = `./profile.html?profile=${profileUserId}`;
+        }
+
+        // Handle hashtag filtering
+        if (urlParams.has("hashtag")) {
+          const hashtag = urlParams.get("hashtag");
+          document.getElementById(
+            "filterStatus"
+          ).textContent = `Showing posts with #${hashtag}`;
+        }
+
+        // Render trending hashtags
+        const trendingContainer = document.getElementById("trendingHashtags");
+        const trending = getTrendingHashtags();
+        if (trending.length === 0) {
+          trendingContainer.innerHTML =
+            '<p class="text-gray-500 text-sm">No trending tags yet</p>';
+        } else {
+          trendingContainer.innerHTML = trending
+            .map(
+              ({ tag, count }) => `
+              <a href="?hashtag=${tag}" class="block p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition">
+                <p class="font-semibold text-blue-500 hover:text-blue-700">#${tag}</p>
+                <p class="text-xs text-gray-500">${count} posts</p>
+              </a>
+            `
+            )
+            .join("");
+        }
+
+        // feed features
+        initFeedPage();
+        initLogout();
+      } else {
+        // User is not logged in
+        landingPage.classList.remove("hidden");
+        feedPage.classList.add("hidden");
+        guestControls.classList.remove("hidden");
+        authControls.classList.add("hidden");
+      }
+    </script>
+  </body>
+</html>
