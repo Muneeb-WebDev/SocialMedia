@@ -57,6 +57,55 @@
       html.dark .bg-white {
         background-color: #0f1115;
       }
+      /* Emoji picker styles */
+      .emoji-container {
+        position: relative;
+      }
+      .emoji-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        background: white;
+        cursor: pointer;
+        font-size: 18px;
+      }
+      .emoji-picker {
+        position: absolute;
+        right: 0;
+        top: 48px;
+        width: 280px;
+        max-height: 220px;
+        overflow: auto;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 6px 18px rgba(16, 24, 40, 0.08);
+        padding: 8px;
+        border-radius: 10px;
+        z-index: 60;
+      }
+      .emoji-grid {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 6px;
+      }
+      .emoji-item {
+        font-size: 20px;
+        padding: 6px;
+        cursor: pointer;
+        border-radius: 6px;
+        background: transparent;
+        border: none;
+      }
+      .emoji-item:hover {
+        background: #f3f4f6;
+      }
+      html.dark .emoji-btn { background: #0b1220; border-color: #273141; color: #e6eef8 }
+      html.dark .emoji-picker { background: #0b1220; border-color: #273141; color: #e6eef8 }
+      html.dark .emoji-item:hover { background: rgba(255,255,255,0.03) }
     </style>
   </head>
   <body class="min-h-screen bg-gray-50">
@@ -139,7 +188,7 @@
 
         <form id="createPostForm" class="space-y-6">
           <!-- Text Input -->
-          <div>
+          <div class="emoji-container">
             <label for="postInput" class="label">What's on your mind?</label>
             <textarea
               id="postInput"
@@ -148,6 +197,17 @@
               class="input-field"
               required
             ></textarea>
+            <div style="margin-top:8px; display:flex; justify-content:flex-end;">
+              <button id="emojiBtn" type="button" class="emoji-btn" title="Insert emoji">😊</button>
+            </div>
+
+            <div id="emojiPicker" class="emoji-picker hidden" aria-hidden="true">
+              <div id="emojiGrid" class="emoji-grid"></div>
+            </div>
+          
+            
+            
+            
             <p class="text-sm text-gray-500 mt-2">
               Maximum 500 characters recommended
             </p>
@@ -244,6 +304,60 @@
       const imagePreview = document.getElementById("imagePreview");
       const previewImg = document.getElementById("previewImg");
       const imageError = document.getElementById("imageError");
+      const emojiBtn = document.getElementById("emojiBtn");
+      const emojiPicker = document.getElementById("emojiPicker");
+      const emojiGrid = document.getElementById("emojiGrid");
+
+      const EMOJIS = [
+        "😀","😁","😂","🤣","😃","😅","😊","😍","😘","😎",
+        "😢","😭","😡","👍","👎","🙏","👏","🙌","🔥","✨",
+        "🎉","❤️","🤍","💯","🤔","🤩","🤯","🤝","💡","🌟",
+        "📷","📌","🔔","✅","❌","💬","📝","📣","😴","😇"
+      ];
+
+      function insertAtCursor(el, text) {
+        const start = el.selectionStart || 0;
+        const end = el.selectionEnd || 0;
+        const value = el.value || "";
+        el.value = value.slice(0, start) + text + value.slice(end);
+        const newPos = start + text.length;
+        el.selectionStart = el.selectionEnd = newPos;
+        el.focus();
+      }
+
+      function populateEmojiGrid() {
+        if (!emojiGrid) return;
+        emojiGrid.innerHTML = "";
+        EMOJIS.forEach((em) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "emoji-item";
+          btn.textContent = em;
+          btn.addEventListener("click", (ev) => {
+            ev.preventDefault();
+            insertAtCursor(postInput, em);
+            emojiPicker.classList.add("hidden");
+          });
+          emojiGrid.appendChild(btn);
+        });
+      }
+
+      if (emojiBtn) {
+        populateEmojiGrid();
+        emojiBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          if (!emojiPicker) return;
+          emojiPicker.classList.toggle("hidden");
+        });
+
+        // Close picker when clicking outside
+        document.addEventListener("click", (ev) => {
+          if (!emojiPicker) return;
+          if (!emojiPicker.classList.contains("hidden") && !emojiPicker.contains(ev.target) && ev.target !== emojiBtn) {
+            emojiPicker.classList.add("hidden");
+          }
+        });
+      }
 
       // Check if user is logged in
       if (!currentUser) {
