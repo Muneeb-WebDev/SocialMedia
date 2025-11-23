@@ -106,6 +106,6 @@ export function updateWelcomeMessage() {
   if (welcomeEl && currentUser) {
     welcomeEl.textContent = `Welcome, ${currentUser.name}`;
   }
-}
+};
 
 export function protectPage() {}

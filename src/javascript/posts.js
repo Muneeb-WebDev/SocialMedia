@@ -74,6 +74,43 @@ export function deletePost(postId) {
   window.dispatchEvent(new Event("postsUpdated"));
 }
 
+export function editPost(postId, newText, newImageUrl) {
+  const currentUser = load("currentUser");
+  if (!currentUser) {
+    alert("Please login to edit a post");
+    return null;
+  }
+
+  if (!newText || !newText.trim()) {
+    alert("Post content cannot be empty");
+    return null;
+  }
+
+  if (newImageUrl && !isValidUrl(newImageUrl)) {
+    alert("Invalid image URL");
+    return null;
+  }
+
+  const posts = getPosts();
+  const post = posts.find((p) => p.id === postId);
+  if (!post) {
+    alert("Post not found");
+    return null;
+  }
+
+  if (post.authorId !== currentUser.id) {
+    alert("You can only edit your own posts");
+    return null;
+  }
+
+  post.text = newText.trim();
+  post.imageUrl = newImageUrl && newImageUrl.trim() ? newImageUrl.trim() : null;
+  setPosts(posts);
+
+  window.dispatchEvent(new Event("postsUpdated"));
+  return post;
+}
+
 export function toggleLike(postId) {
   const currentUser = load("currentUser");
   if (!currentUser) {

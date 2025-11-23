@@ -2,6 +2,7 @@ import { load, formatDate, extractHashtags, getUserById } from "./utils.js";
 import {
   toggleLike,
   deletePost,
+  editPost,
   searchPosts,
   sortPosts,
   addComment,
@@ -40,15 +41,24 @@ function renderPostCard(post) {
     `;
   }
 
-  const deleteBtn = isAuthor
+  const actionButtons = isAuthor
     ? `
-    <button 
-      class="text-red-500 hover:text-red-700 font-semibold text-sm transition"
-      data-post-id="${post.id}"
-      data-action="delete"
-    >
-       Delete
-    </button>
+    <div class="flex gap-2">
+      <button
+        class="text-blue-500 hover:text-blue-700 font-semibold text-sm transition"
+        data-post-id="${post.id}"
+        data-action="edit"
+      >
+        Edit
+      </button>
+      <button 
+        class="text-red-500 hover:text-red-700 font-semibold text-sm transition"
+        data-post-id="${post.id}"
+        data-action="delete"
+      >
+         Delete
+      </button>
+    </div>
   `
     : "";
 
@@ -68,7 +78,7 @@ function renderPostCard(post) {
           post.createdAt
         )}</p>
       </div>
-      ${deleteBtn}
+      ${actionButtons}
     </div>
 
     <p class="text-gray-800 mb-3 wrap-break-word dark:text-gray-100">${postTextHtml}</p>
@@ -198,10 +208,62 @@ function attachPostEventListeners() {
 
     if (action === "like") {
       toggleLike(postId);
+    } else if (action === "edit") {
+      const postCard = document.getElementById(`post-${postId}`);
+      if (!postCard) return;
+
+      // prevent multiple edit forms
+      if (postCard.querySelector('[data-action="edit-form"]')) return;
+
+      const posts = load("posts") || [];
+      const post = posts.find((p) => p.id === postId);
+      if (!post) return;
+
+      const textP = postCard.querySelector("p.wrap-break-word");
+      const imageEl = postCard.querySelector("img");
+      if (textP) textP.style.display = "none";
+      if (imageEl) imageEl.style.display = "none";
+
+      const formDiv = document.createElement("div");
+      formDiv.setAttribute("data-action", "edit-form");
+      formDiv.className = "mt-3";
+      formDiv.innerHTML = `
+        <textarea data-action="edit-text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" rows="4">${post.text}</textarea>
+        <input data-action="edit-image" type="text" placeholder="Image URL (optional)" value="${post.imageUrl || ""}" class="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+        <div class="mt-2 flex gap-2">
+          <button data-action="edit-save" data-post-id="${postId}" class="px-3 py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600">Save</button>
+          <button data-action="edit-cancel" data-post-id="${postId}" class="px-3 py-2 bg-gray-300 text-black rounded-lg text-sm hover:bg-gray-400">Cancel</button>
+        </div>
+      `;
+
+      postCard.appendChild(formDiv);
     } else if (action === "delete") {
       if (confirm("Are you sure you want to delete this post?")) {
         deletePost(postId);
       }
+    } else if (action === "edit-save") {
+      const postCard = document.getElementById(`post-${postId}`);
+      if (!postCard) return;
+      const textarea = postCard.querySelector('[data-action="edit-text"]');
+      const imageInput = postCard.querySelector('[data-action="edit-image"]');
+      const newText = textarea ? textarea.value : "";
+      const newImage = imageInput ? imageInput.value : "";
+
+      editPost(postId, newText, newImage);
+    } else if (action === "edit-cancel") {
+      const updatedPosts = load("posts") || [];
+      const currentUser = load("currentUser");
+
+      let feedPosts = updatedPosts;
+      if (currentUser?.following && currentUser.following.length > 0) {
+        feedPosts = updatedPosts.filter(
+          (p) =>
+            currentUser.following.includes(p.authorId) || p.authorId === currentUser.id
+        );
+      }
+
+      const sortBy = document.getElementById("sortSelect")?.value || "latest";
+      renderFeed(sortPosts(feedPosts, sortBy));
     } else if (action === "toggle-comments") {
       const commentsDiv = document.getElementById(`comments-${postId}`);
       if (commentsDiv) {
