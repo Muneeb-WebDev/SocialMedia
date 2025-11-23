@@ -4,16 +4,20 @@
   "description": "A fully functional social media web app built with HTML, Tailwind CSS, and Vanilla JavaScript",
   "type": "module",
   "scripts": {
-    "build:css": "tailwindcss -i src/input.css -o src/output.css",
-    "watch:css": "tailwindcss -i src/input.css -o src/output.css --watch",
-    "start": "npm run watch:css"
+    "build:css": "tailwindcss -i ./src/input.css -o ./src/output.css --minify",
+    "build:copy": "rimraf dist && cpx \"src/**\" dist && cpx \"img/**\" dist/img",
+    "build": "npm run build:css && npm run build:copy",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "preview": "npx serve dist"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.17"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.22",
+    "cpx": "^1.5.0",
     "postcss": "^8.5.6",
+    "rimraf": "^6.1.2",
     "tailwindcss": "^4.1.17"
   }
 }
