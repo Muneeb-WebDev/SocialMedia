@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile - Social Media App</title>
+    <link rel="stylesheet" href="../output.css" />
+    <link
+      rel="shortcut icon"
+      href="/img/logo_png-removebg-preview.png"
+      type="image/x-icon"
+    />
+    <style>
+      :root {
+        --accent-1: #00d1ff;
+        --accent-2: #7b61ff;
+        --accent-3: #ff6ea3;
+        --bg-1: #0b0c10;
+        --card: #131418;
+        --muted: #b8bac3;
+      }
+      html.dark body {
+        background-color: #0b0c10;
+        color: #e6eef8;
+      }
+      html.dark header {
+        background-color: #0f1115;
+      }
+      html.dark .card {
+        background-color: #0f1720;
+        color: #e6eef8;
+      }
+      html.dark .input-field {
+        background-color: #0b1220;
+        color: #e6eef8;
+        border-color: #1f2937;
+      }
+      html.dark .text-gray-900 {
+        color: #e6eef8 !important;
+      }
+      html.dark .text-gray-700 {
+        color: #cbd5e1 !important;
+      }
+      html.dark .text-gray-600 {
+        color: #9aa6b8 !important;
+      }
+      html.dark .text-gray-500 {
+        color: #7a8fa6 !important;
+      }
+      html.dark .label {
+        color: #cbd5e1 !important;
+      }
+      html.dark .border-gray-200 {
+        border-color: #1f2937 !important;
+      }
+      html.dark .bg-gray-50 {
+        background-color: #111827 !important;
+      }
+      html.dark .bg-white {
+        background-color: #0f1115;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto px-4 py-4">
+        <div class="flex items-center justify-between gap-4">
+          <!-- Logo -->
+          <div class="flex items-center gap-3">
+            <img
+              src="/img/logo_png-removebg-preview.png"
+              class="h-10 w-12"
+              alt="NextWavesDigital"
+            />
+            <h1
+              class="text-2xl font-bold text-gray-900"
+              style="
+                background: linear-gradient(
+                  90deg,
+                  var(--accent-1),
+                  var(--accent-2),
+                  var(--accent-3)
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+              "
+            >
+              NextWavesDigital
+            </h1>
+          </div>
+          <div id="authControls" class="hidden md:flex gap-3 items-center">
+            <a href="./index.html" class="btn-outline">Back to Home</a>
+            <button
+              id="logoutBtn"
+              class="border border-blue-500 rounded-lg px-4 py-2 font-medium text-blue-500"
+            >
+              Logout
+            </button>
+            <button id="themeToggle" title="Toggle theme" class="btn-outline">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                width="1em"
+                height="1em"
+                fill="currentColor"
+                stroke-linecap="round"
+                class="theme-toggle__classic"
+                viewBox="0 0 32 32"
+              >
+                <clipPath id="theme-toggle__classic__cutout">
+                  <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z" />
+                </clipPath>
+                <g clip-path="url(#theme-toggle__classic__cutout)">
+                  <circle cx="16" cy="16" r="9.34" />
+                  <g stroke="currentColor" stroke-width="1.5">
+                    <path d="M16 5.5v-4" />
+                    <path d="M16 30.5v-4" />
+                    <path d="M1.5 16h4" />
+                    <path d="M26.5 16h4" />
+                    <path d="m23.4 8.6 2.8-2.8" />
+                    <path d="m5.7 26.3 2.9-2.9" />
+                    <path d="m5.8 5.8 2.8 2.8" />
+                    <path d="m23.4 23.4 2.9 2.9" />
+                  </g>
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Profile Section -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <div class="card mb-8">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <!-- Profile Picture -->
+          <div class="shrink-0">
+            <img
+              id="profilePic"
+              src=""
+              alt="Profile"
+              class="w-32 h-32 rounded-full border-4 border-blue-500 object-cover"
+            />
+          </div>
+
+          <!-- Profile Info -->
+          <div class="flex-1">
+            <h1
+              id="profileName"
+              class="text-4xl font-bold text-gray-900 mb-2"
+            ></h1>
+            <p id="profileBio" class="text-gray-600 mb-4"></p>
+
+            <!-- Stats -->
+            <div class="flex gap-8 mb-4">
+              <div>
+                <p class="text-2xl font-bold text-gray-900">
+                  <span id="postCount">0</span>
+                </p>
+                <p class="text-sm text-gray-600">Posts</p>
+              </div>
+              <div>
+                <p class="text-2xl font-bold text-gray-900">
+                  <span id="followerCount">0</span>
+                </p>
+                <p class="text-sm text-gray-600">Followers</p>
+              </div>
+              <div>
+                <p class="text-2xl font-bold text-gray-900">
+                  <span id="followingCount">0</span>
+                </p>
+                <p class="text-sm text-gray-600">Following</p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div id="actionButtons" class="flex gap-3"></div>
+          </div>
+        </div>
+
+        <!-- Edit Bio Section (only for own profile) -->
+        <div
+          id="editBioSection"
+          class="hidden mt-6 pt-6 border-t border-gray-200"
+        >
+          <h3 class="text-lg font-bold text-gray-900 mb-4">Edit Profile</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="label">Bio</label>
+              <textarea
+                id="bioInput"
+                rows="3"
+                placeholder="Tell us about yourself..."
+                class="input-field w-full"
+              ></textarea>
+            </div>
+            <div>
+              <label class="label">Profile Picture URL</label>
+              <input
+                id="profilePicInput"
+                type="text"
+                placeholder="https://example.com/image.jpg"
+                class="input-field w-full"
+              />
+            </div>
+            <button id="saveBioBtn" class="btn-primary">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Posts Section -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Posts</h2>
+        <div id="profilePostsContainer" class="space-y-4"></div>
+      </div>
+    </main>
+
+    <script type="module">
+      import {
+        load,
+        initTheme,
+        getUserById,
+        updateUserProfile,
+        extractHashtags,
+        save,
+        formatDate,
+      } from "../javascript/utils.js";
+      import { initLogout } from "../javascript/auth.js";
+      import {
+        toggleLike,
+        deletePost,
+        addComment,
+        deleteComment,
+      } from "../javascript/posts.js";
+
+      initTheme("themeToggle");
+      initLogout();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const profileUserId = urlParams.get("profile");
+
+      if (!profileUserId) {
+        window.location.href = "./index.html";
+      }
+
+      const profileUser = getUserById(profileUserId);
+      const currentUser = load("currentUser");
+
+      if (!profileUser) {
+        document.body.innerHTML =
+          '<div class="text-center py-12"><p class="text-gray-500 text-lg">User not found</p></div>';
+      } else {
+        // Populate profile info
+        document.getElementById("profileName").textContent = profileUser.name;
+        document.getElementById("profilePic").src =
+          profileUser.profilePic ||
+          "https://api.dicebear.com/7.x/avataaars/svg?seed=" + profileUser.name;
+        document.getElementById("profileBio").textContent =
+          profileUser.bio || "No bio yet";
+
+        // Get user's posts
+        const posts = (load("posts") || []).filter(
+          (p) => p.authorId === profileUserId
+        );
+        document.getElementById("postCount").textContent = posts.length;
+        document.getElementById("followerCount").textContent =
+          profileUser.followers?.length || 0;
+        document.getElementById("followingCount").textContent =
+          profileUser.following?.length || 0;
+
+        // Setup action buttons
+        const actionButtons = document.getElementById("actionButtons");
+        const isOwnProfile = currentUser && currentUser.id === profileUserId;
+
+        if (isOwnProfile) {
+          actionButtons.innerHTML = `<button id="editProfileBtn" class="btn-primary">Edit Profile</button>`;
+          document
+            .getElementById("editProfileBtn")
+            .addEventListener("click", () => {
+              document
+                .getElementById("editBioSection")
+                .classList.toggle("hidden");
+              document.getElementById("bioInput").value = profileUser.bio || "";
+              document.getElementById("profilePicInput").value =
+                profileUser.profilePic || "";
+            });
+
+          document
+            .getElementById("saveBioBtn")
+            .addEventListener("click", () => {
+              const newBio = document.getElementById("bioInput").value.trim();
+              const newProfilePic = document
+                .getElementById("profilePicInput")
+                .value.trim();
+              updateUserProfile(profileUserId, {
+                bio: newBio,
+                profilePic: newProfilePic,
+              });
+              document.getElementById("profileBio").textContent =
+                newBio || "No bio yet";
+              document.getElementById("profilePic").src =
+                newProfilePic ||
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=" +
+                  profileUser.name;
+              alert("Profile updated!");
+            });
+        } else if (currentUser) {
+          setupFollowButton(profileUserId, profileUser, currentUser);
+        }
+
+        function setupFollowButton(profileUserId, profileUser, currentUser) {
+          const actionButtons = document.getElementById("actionButtons");
+          const followerCountEl = document.getElementById("followerCount");
+
+          const updateFollowBtn = () => {
+            const updatedProfileUser = getUserById(profileUserId);
+            const isFollowing = updatedProfileUser?.followers?.includes(
+              currentUser.id
+            );
+            const btnText = isFollowing
+              ? "<i class='fas fa-user-check'></i> Following"
+              : "<i class='fas fa-user-plus'></i> Follow";
+            const btnClass = isFollowing ? "btn-secondary" : "btn-primary";
+            actionButtons.innerHTML = `<button id="followBtn" class="${btnClass}">${btnText}</button>`;
+
+            const followBtn = document.getElementById("followBtn");
+            if (followBtn) {
+              followBtn.addEventListener("click", toggleFollow);
+            }
+          };
+
+          const toggleFollow = () => {
+            const users = load("users") || [];
+            const user = users.find((u) => u.id === profileUserId);
+            const currUser = users.find((u) => u.id === currentUser.id);
+
+            if (!user || !currUser) return;
+
+            if (!user.followers) user.followers = [];
+            if (!currUser.following) currUser.following = [];
+
+            const isCurrentlyFollowing = user.followers.includes(
+              currentUser.id
+            );
+
+            if (isCurrentlyFollowing) {
+              user.followers = user.followers.filter(
+                (id) => id !== currentUser.id
+              );
+              currUser.following = currUser.following.filter(
+                (id) => id !== profileUserId
+              );
+            } else {
+              user.followers.push(currentUser.id);
+              currUser.following.push(profileUserId);
+            }
+
+            save("users", users);
+            save("currentUser", currUser);
+
+            // Update UI without full reload
+            if (followerCountEl) {
+              followerCountEl.textContent = user.followers.length;
+            }
+            updateFollowBtn();
+          };
+
+          updateFollowBtn();
+        }
+
+        // Render posts
+        const postsContainer = document.getElementById("profilePostsContainer");
+        if (posts.length === 0) {
+          postsContainer.innerHTML =
+            '<div class="text-center py-12"><p class="text-gray-500">No posts yet</p></div>';
+        } else {
+          posts.forEach((post) => {
+            const postCard = renderPostCard(post, currentUser);
+            postsContainer.appendChild(postCard);
+          });
+        }
+
+        function renderPostCard(post, currentUser) {
+          const isLiked = currentUser && post.likedBy.includes(currentUser.id);
+          const isAuthor = currentUser && post.authorId === currentUser.id;
+          const postDiv = document.createElement("div");
+          postDiv.className =
+            "bg-white border border-gray-200 rounded-lg shadow-md p-6 dark:bg-gray-800 dark:border-gray-700";
+          postDiv.id = `post-${post.id}`;
+
+          let postTextHtml = post.text;
+          const hashtags = extractHashtags(post.text);
+          hashtags.forEach((tag) => {
+            const regex = new RegExp(`#${tag}`, "g");
+            postTextHtml = postTextHtml.replace(
+              regex,
+              `<a href="./index.html?hashtag=${tag}" class="text-blue-500 hover:underline">#${tag}</a>`
+            );
+          });
+
+          let imageHtml = "";
+          if (post.imageUrl) {
+            imageHtml = `<img src="${post.imageUrl}" alt="Post image" class="w-full h-64 object-cover rounded-lg mb-4 mt-4" onerror="this.style.display='none'" />`;
+          }
+
+          const deleteBtn = isAuthor
+            ? `<button class="text-red-500 hover:text-red-700 text-sm font-semibold" data-post-id="${post.id}" data-action="delete">Delete</button>`
+            : "";
+
+          postDiv.innerHTML = `
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <h3 class="font-bold text-gray-900 dark:text-white">${
+                post.author
+              }</h3>
+              <p class="text-gray-500 text-sm dark:text-gray-400">${formatDate(
+                post.createdAt
+              )}</p>
+            </div>
+            ${deleteBtn}
+          </div>
+          <p class="text-gray-800 mb-3 dark:text-gray-100">${postTextHtml}</p>
+          ${imageHtml}
+          <div class="flex gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button class="flex items-center gap-2 text-sm font-semibold transition ${
+              isLiked ? "text-red-500" : "text-gray-600 dark:text-gray-400"
+            }" data-post-id="${post.id}" data-action="like">
+              <span class="text-xl">${isLiked ? "❤️" : "🤍"}</span>
+              <span class="like-count">${post.likes}</span>
+            </button>
+            <button class="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-400" data-post-id="${
+              post.id
+            }" data-action="toggle-comments">
+              <span>💬</span>
+              <span>${post.comments?.length || 0}</span>
+            </button>
+          </div>
+          <div id="comments-${post.id}" class="mt-4 hidden">
+            ${renderComments(post)}
+            <div class="mt-3 flex gap-2">
+              <input type="text" placeholder="Add a comment..." class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" data-post-id="${
+                post.id
+              }" data-action="comment-input" />
+              <button class="px-3 py-2 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600" data-post-id="${
+                post.id
+              }" data-action="comment-submit">Post</button>
+            </div>
+          </div>
+        `;
+
+          // Add event listeners
+          postDiv.addEventListener("click", (e) => {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            const action = btn.dataset.action;
+            const postId = btn.dataset.postId;
+
+            if (action === "like") toggleLike(postId);
+            else if (action === "delete") {
+              if (confirm("Delete this post?")) deletePost(postId);
+              else return;
+              postDiv.remove();
+            } else if (action === "toggle-comments") {
+              document
+                .getElementById(`comments-${postId}`)
+                .classList.toggle("hidden");
+            } else if (action === "comment-submit") {
+              const input = postDiv.querySelector(
+                `input[data-action="comment-input"]`
+              );
+              if (input.value) {
+                addComment(postId, input.value);
+                input.value = "";
+              }
+            }
+          });
+
+          return postDiv;
+        }
+
+        function renderComments(post) {
+          if (!post.comments || post.comments.length === 0) {
+            return '<div class="text-gray-500 text-sm dark:text-gray-400">No comments yet</div>';
+          }
+          return post.comments
+            .map((comment) => {
+              const isCommentAuthor = currentUser?.id === comment.authorId;
+              return `
+              <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded mb-2 text-sm">
+                <div class="flex justify-between">
+                  <strong class="text-gray-900 dark:text-white">${
+                    comment.author
+                  }</strong>
+                  ${
+                    isCommentAuthor
+                      ? `<button class="text-red-500 hover:text-red-700 text-xs" data-post-id="${post.id}" data-comment-id="${comment.id}" data-action="delete-comment">Delete</button>`
+                      : ""
+                  }
+                </div>
+                <p class="text-gray-700 dark:text-gray-200 mt-1">${
+                  comment.text
+                }</p>
+                <p class="text-gray-500 text-xs dark:text-gray-400 mt-1">${formatDate(
+                  comment.createdAt
+                )}</p>
+              </div>
+            `;
+            })
+            .join("");
+        }
+
+        function formatDate(date) {
+          if (typeof date === "number") date = new Date(date);
+          const now = new Date();
+          const diff = now - date;
+          const minutes = Math.floor(diff / 60000);
+          const hours = Math.floor(diff / 3600000);
+          const days = Math.floor(diff / 86400000);
+          if (minutes < 1) return "just now";
+          if (minutes < 60) return `${minutes}m ago`;
+          if (hours < 24) return `${hours}h ago`;
+          if (days < 7) return `${days}d ago`;
+          return date.toLocaleDateString();
+        }
+      }
+    </script>
+  </body>
+</html>
