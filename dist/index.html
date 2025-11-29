@@ -179,7 +179,7 @@
     <!-- Header -->
     <header class="bg-white shadow sticky top-0 z-20">
       <div class="max-w-6xl mx-auto px-4 py-4">
-        <div class="flex items-center justify-betw gap-4 flex-wrap]">
+        <div class="flex items-center justify-between gap-4 flex-wrap]">
           <!-- Logo -->
           <div class="flex items-center gap-3">
             <img
@@ -203,9 +203,47 @@
             >
               NextWavesDigital
             </h1>
-          </div>
+        </div>
+        <!-- User Not Logged in -->
+        <div id="guestControls" class="hidden flex gap-3 ">
+          <a href="./signup.html" class="btn-primary">Sign Up</a>
+          <a href="./login.html" class="btn-primary">Log In</a>
+          <button
+            id="themeToggleGuest"
+            title="Toggle theme"
+            class="btn-outline"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              stroke-linecap="round"
+              class="theme-toggle__classic"
+              viewBox="0 0 32 32"
+            >
+              <clipPath id="theme-toggle__classic__cutout">
+                <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z" />
+              </clipPath>
+              <g clip-path="url(#theme-toggle__classic__cutout)">
+                <circle cx="16" cy="16" r="9.34" />
+                <g stroke="currentColor" stroke-width="1.5">
+                  <path d="M16 5.5v-4" />
+                  <path d="M16 30.5v-4" />
+                  <path d="M1.5 16h4" />
+                  <path d="M26.5 16h4" />
+                  <path d="m23.4 8.6 2.8-2.8" />
+                  <path d="m5.7 26.3 2.9-2.9" />
+                  <path d="m5.8 5.8 2.8 2.8" />
+                  <path d="m23.4 23.4 2.9 2.9" />
+                </g>
+              </g>
+            </svg>
+          </button>
+        </div>
 
-          <div id="authControls" class="hidden md:flex gap-3 items-center">
+          <div id="authControls" class="hidden flex gap-3 items-center">
             <input
               id="searchInput"
               type="text"
@@ -260,44 +298,6 @@
             </button>
           </div>
 
-          <!-- User Not Logged in -->
-          <div id="guestControls" class="flex md:hidden gap-3 items-center">
-            <a href="./signup.html" class="btn-primary">Sign Up</a>
-            <a href="./login.html" class="btn-primary">Log In</a>
-            <button
-              id="themeToggleGuest"
-              title="Toggle theme"
-              class="btn-outline"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                width="1em"
-                height="1em"
-                fill="currentColor"
-                stroke-linecap="round"
-                class="theme-toggle__classic"
-                viewBox="0 0 32 32"
-              >
-                <clipPath id="theme-toggle__classic__cutout">
-                  <path d="M0-5h30a1 1 0 0 0 9 13v24H0Z" />
-                </clipPath>
-                <g clip-path="url(#theme-toggle__classic__cutout)">
-                  <circle cx="16" cy="16" r="9.34" />
-                  <g stroke="currentColor" stroke-width="1.5">
-                    <path d="M16 5.5v-4" />
-                    <path d="M16 30.5v-4" />
-                    <path d="M1.5 16h4" />
-                    <path d="M26.5 16h4" />
-                    <path d="m23.4 8.6 2.8-2.8" />
-                    <path d="m5.7 26.3 2.9-2.9" />
-                    <path d="m5.8 5.8 2.8 2.8" />
-                    <path d="m23.4 23.4 2.9 2.9" />
-                  </g>
-                </g>
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
     </header>
@@ -443,7 +443,7 @@
               <!-- Hashtag section -->
             </div>
           </div>
-        </div>\\\
+        </div>
       </div>
     </main>
 
@@ -467,18 +467,19 @@
       }
 
       const currentUser = load("currentUser");
+      // treat a user as logged in only if we have a valid user object with an id
+      const isLoggedIn = currentUser && currentUser.id;
       const landingPage = document.getElementById("landingPage");
       const feedPage = document.getElementById("feedPage");
       const authControls = document.getElementById("authControls");
       const guestControls = document.getElementById("guestControls");
       const welcomeEl = document.getElementById("welcomeUser");
-
-      if (currentUser) {
+      if (isLoggedIn) {
         // User is logged in
-        landingPage.classList.add("hidden");
-        feedPage.classList.remove("hidden");
-        guestControls.classList.add("hidden");
-        authControls.classList.remove("hidden");
+        if (landingPage) landingPage.classList.add("hidden");
+        if (feedPage) feedPage.classList.remove("hidden");
+        if (guestControls) guestControls.classList.add("hidden");
+        if (authControls) authControls.classList.remove("hidden");
 
         // Set welcome message
         if (welcomeEl) {
@@ -522,13 +523,15 @@
         // feed features
         initFeedPage();
         initLogout();
-      } else {
-        // User is not logged in
-        landingPage.classList.remove("hidden");
-        feedPage.classList.add("hidden");
-        guestControls.classList.remove("hidden");
-        authControls.classList.add("hidden");
-      }
+    } 
+    else {
+      // User is not logged in
+      if (landingPage) landingPage.classList.remove("hidden");
+      if (feedPage) feedPage.classList.add("hidden");
+      if (guestControls) guestControls.classList.remove("hidden");
+      if (authControls) authControls.classList.add("hidden");
+    }
+    
     </script>
   </body>
 </html>

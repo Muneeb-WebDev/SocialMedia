@@ -9,3 +9,5 @@
 
 [context.production.environment]
   NODE_ENV = "production"
+  # Ensure devDependencies (tailwind, rimraf, cpx) are installed during Netlify builds
+  NPM_FLAGS = "--include=dev"
