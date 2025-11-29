@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build:css": "tailwindcss -i ./src/input.css -o ./src/output.css --minify",
-    "build:copy": "rimraf dist && cpx \"src/pages/*\" dist && cpx \"src/javascript/**\" dist/javascript && cpx \"src/output.css\" dist && cpx \"img/**\" dist/img && cpx \"src/_redirects\" dist",
+    "build:copy": "rimraf dist && cpx \"src/**\" dist && cpx \"img/**\" dist/img",
     "build": "npm run build:css && npm run build:copy",
     "watch:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "preview": "npx serve dist"
